@@ -2,24 +2,27 @@
 import { getTokenData, getVehiclesData, getPlanetsData, getResultData } from '../services';
 
 export async function setToken(dispatch){
-    let payload = await getTokenData();
-    dispatch({
-        type: 'SET_TOKEN',
-        payload: payload
+    return await getTokenData().then((data)=>{
+        dispatch({
+            type: 'SET_TOKEN',
+            payload: data
+        });   
     });
 }
 export async function setVehicles(dispatch){
-    let payload = await getVehiclesData();
-    dispatch({
-        type: 'SET_VEHICLES',
-        payload: payload
+    return await getVehiclesData().then((data)=>{
+        dispatch({
+            type: 'SET_VEHICLES',
+            payload: data
+        });   
     });
 }
 export async function setPlanets(dispatch){
-    let payload = await getPlanetsData();
-    dispatch({
-        type: 'SET_PLANETS',
-        payload: payload
+    return await getPlanetsData().then((data)=>{
+        dispatch({
+            type: 'SET_PLANETS',
+            payload: data
+        });   
     });
 }
 

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { setToken, setVehicles, setPlanets } from '../actions'
+import { setToken, setVehicles, setPlanets } from '../actions';
+import UserInput from './user-input';
+import TimeTracker from './time-tracker';
+import Find from './find';
+import '../css/home.css';
 
 /**
  * function that resturns the initail state of the component
@@ -24,27 +27,46 @@ class Home extends Component{
         this.state = getInitialState();
     }
     async componentDidMount(){
-        await this.props.setToken();
-        await this.props.setVehicles();
-        await this.props.setPlanets();
-        let { planets, vehicles, token } = this.props;
-        this.setState({
-            planets,
-            vehicles,
-            token
+        this.props.setToken().then(()=>{
+            this.setState({
+                token: this.props.token
+            })
+        });
+        this.props.setVehicles().then(()=>{
+            this.setState({
+                vehicles: this.props.vehicles
+            })
+        });
+        this.props.setPlanets().then(()=>{
+            this.setState({
+                planets: this.props.planets
+            })
         });
     }
     render(){
+        let { planets, vehicles } = this.state,
+        count = this.props.noOfInputs,
+        userInputs = Array.apply(null, Array(count)).map((val, index)=>{
+           return <UserInput key={index} planets={planets} vehicles={vehicles} index={index + 1}/>
+        });
         return (
-            <div></div>
+            <div className="home-main-container">
+                <div className="home-page-title">Select the planets you want to search in:</div>
+                <div className="inputs-container">
+                    {userInputs}
+                </div>
+                <TimeTracker />
+                <Find disabled={true}/>
+            </div>
+            // <div></div>
         );
     }
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        setToken : ()=> { setToken(dispatch) },
-        setVehicles: ()=>{ setVehicles(dispatch) },
-        setPlanets: ()=>{ setPlanets(dispatch) }
+        setToken : ()=> setToken(dispatch),
+        setVehicles: ()=> setVehicles(dispatch),
+        setPlanets: ()=> setPlanets(dispatch)
     }
   }
 const mapStateToProps = (state)=>{

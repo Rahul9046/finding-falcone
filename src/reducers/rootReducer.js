@@ -10,7 +10,6 @@ const initState = {
 };
 
 export default function rootReducer(state = initState, action){
-    debugger;
     switch(action.type){
         case SET_TOKEN:
             return{

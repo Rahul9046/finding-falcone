@@ -31,3 +31,9 @@
     text-align: center;
     width: 100%;
   }
+  .content-main-container{
+    display: inline-block;
+    margin-left: 20%;
+    text-align: center;
+    margin-top: 20px;
+  }
