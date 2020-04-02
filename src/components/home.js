@@ -27,6 +27,12 @@ class Home extends Component{
         await this.props.setToken();
         await this.props.setVehicles();
         await this.props.setPlanets();
+        let { planets, vehicles, token } = this.props;
+        this.setState({
+            planets,
+            vehicles,
+            token
+        });
     }
     render(){
         return (
