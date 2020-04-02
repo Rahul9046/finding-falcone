@@ -6,8 +6,7 @@ import { getTokenRequest, getVehiclesRequest, getPlanetsRequest, findRequest } f
  */
 export function getTokenData(){
     return getTokenRequest()
-        .then(res => res.json())
-        .then(data => data)
+        .then(res =>res.data)
 }
 
 /**
@@ -16,8 +15,7 @@ export function getTokenData(){
  */
 export function getVehiclesData(){
     return getVehiclesRequest()
-        .then(res => res.json())
-        .then(data => data)
+        .then(res =>res.data)
 }
 
 /**
@@ -26,8 +24,7 @@ export function getVehiclesData(){
  */
 export function getPlanetsData(){
     return getPlanetsRequest()
-        .then(res => res.json())
-        .then(data => data)
+        .then(res =>res.data)
 }
 
 /**
@@ -35,8 +32,7 @@ export function getPlanetsData(){
  * @param {Object} body the body object for the post request
  * @returns {Object} the result of the search
  */
-export function getResult(body){
+export function getResultData(body){
     return findRequest()
-        .then(res => res.json())
-        .then(data => data)
+        .then(res =>res.data)
 }

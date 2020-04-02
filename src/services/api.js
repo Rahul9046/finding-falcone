@@ -1,5 +1,5 @@
 
-import { URL, VEHICLES, FIND, PLANETS, TOKEN} from './constant.js';
+import { SERVER_URL, VEHICLES, FIND, PLANETS, TOKEN} from './constant.js';
 import axios from 'axios';
 
 /**
@@ -7,7 +7,7 @@ import axios from 'axios';
  * @returns {Promise} Promise
  */
 export function getTokenRequest(){
-    return axios.post(`${URL}${TOKEN}`, null, {'Accept': 'application/json'});
+    return axios.post(`${SERVER_URL}${TOKEN}`, null, {headers: {'Accept': 'application/json'}});
 }
 
 /**
@@ -15,7 +15,7 @@ export function getTokenRequest(){
  * @returns {Promise} Promise
  */
 export function getVehiclesRequest(){
-    return axios.get(`${URL}${VEHICLES}`);
+    return axios.get(`${SERVER_URL}${VEHICLES}`);
 }
 
 /**
@@ -23,7 +23,7 @@ export function getVehiclesRequest(){
  * @returns {Promise} Promise
  */
 export function getPlanetsRequest(){
-    return axios.get(`${URL}${PLANETS}`);
+    return axios.get(`${SERVER_URL}${PLANETS}`);
 }
 
 /**
@@ -32,8 +32,10 @@ export function getPlanetsRequest(){
  * @returns {Promise} Promise
  */
 export function findRequest(body){
-    return axios.post(`${URL}${FIND}`, body, {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    return axios.post(`${SERVER_URL}${FIND}`, body, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
     });
 }
