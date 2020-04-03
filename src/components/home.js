@@ -49,16 +49,18 @@ class Home extends Component{
             planets_selected: [...this.props.selected_planets, value]
         });
     }
-    vehicleSelectHandler = (evt) =>{
-        let value = evt.target.value;
-        this.props.selectVehicle(value);
+    vehicleSelectHandler = (planetDistance, vehicleName) =>{
+        let vehiclesSpeed = this.props.vehicles.find((vehicle)=>vehicle.name === vehicleName).speed,
+            timeTaken = planetDistance / vehiclesSpeed;
+        this.props.selectVehicle(vehicleName);
         this.setState({
-            vehicles_selected: [...this.props.selected_vehicles, value]
+            vehicles_selected: [...this.props.selected_vehicles, vehicleName],
+            totalTime: this.state.totalTime + timeTaken
         });
     }
     render(){
         let { planets, vehicles, noOfInputs } = this.props,
-        { planets_selected, vehicles_selected } = this.state;
+        { planets_selected, vehicles_selected, totalTime } = this.state;
         return (
             <div className="home-main-container">
                 <div className="home-page-title">Select the planets you want to search in:</div>
@@ -73,8 +75,8 @@ class Home extends Component{
                         vehicleSelectHandler = {this.vehicleSelectHandler}
                         /> 
                 </div>
-                <TimeTracker />
-                <Find disabled={true}/>
+                <TimeTracker totalTime = {totalTime}/>
+                <Find disabled={ vehicles_selected.length === noOfInputs ? false : true}/>
             </div>
             // <div></div>
         );

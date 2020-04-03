@@ -3,7 +3,7 @@ import React from 'react';
 import UserInput from './user-input';
 
 const UserInputManager = (props) => {
-    let {planets_selected , vehicles_selected, planets, vehicles, count, planetSelectHandler, vehicleSelectHandler} = props,
+    let { planets_selected , vehicles_selected, planets, vehicles, count, planetSelectHandler, vehicleSelectHandler } = props,
     getUserInputs = (selectedPlanets, selectedVehicles, planets, vehicles, count)=>{
         // create deep copies of vehicles ans planets to prevent the props object to get mutated
         let remainingPlanets = JSON.parse(JSON.stringify(planets)),
@@ -28,11 +28,12 @@ const UserInputManager = (props) => {
                 return (
                     <UserInput 
                         key={index}
-                        selectedPlanet = {selectedPlanets[index]} 
+                        selectedPlanet = {planets.find( planet => planet.name === selectedPlanets[index])} 
                         planets={remainingPlanets} 
                         vehicles={JSON.parse(JSON.stringify(remainingVehicles))} 
                         planetSelectHandler = {planetSelectHandler}
                         vehicleSelectHandler = {vehicleSelectHandler}
+                        showDropDown={true}
                         index={index + 1}
                     />
                 )
@@ -45,6 +46,7 @@ const UserInputManager = (props) => {
                     vehicles={JSON.parse(JSON.stringify(remainingVehicles))} 
                     planetSelectHandler = {planetSelectHandler}
                     vehicleSelectHandler = {vehicleSelectHandler}
+                    showDropDown={false}
                     index={index + 1}
                 />
             )

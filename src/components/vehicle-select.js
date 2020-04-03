@@ -7,24 +7,27 @@ const optionStyleObj = {
     height: '30px'
 };
 const VehicleSelect = (props) => {
-    let {vehicles, vehicleSelectHandler} = props;
+    let {vehicles, vehicleSelectHandler, distance} = props,
+    handleVechicleSelection = (evt)=>{
+        vehicleSelectHandler(distance, evt.target.value);
+    };
     vehicles = vehicles.map((vehicle, index) => {
         let vehicleName = vehicle.name,
-            vehicleCount = vehicle.total_no;
+            vehicleCount = vehicle.total_no,
+            maxDistance = vehicle.max_distance;
         return(
             <Radio
                 key={index}
                 value={vehicleName}
                 style={optionStyleObj}
-                disabled={ vehicleCount ? false : true }
-                onChange = {vehicleSelectHandler}
+                disabled={ (vehicleCount && (maxDistance >= distance)) ? false : true }
             >
             {`${vehicleName}(${vehicleCount})`}
             </Radio>
         )
     })
     return (
-        <Radio.Group>
+        <Radio.Group  onChange = {handleVechicleSelection}>
             {vehicles}
         </Radio.Group>
     );
