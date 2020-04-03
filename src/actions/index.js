@@ -25,6 +25,18 @@ export async function setPlanets(dispatch){
         });   
     });
 }
+export function selectPlanet(dispatch, data){
+    dispatch({
+        type: 'SELECT_PLANET',
+        payload: data
+    }); 
+}
+export function selectVehicle(dispatch, data){
+    dispatch({
+        type: 'SELECT_VEHICLE',
+        payload: data
+    }); 
+}
 
 
 

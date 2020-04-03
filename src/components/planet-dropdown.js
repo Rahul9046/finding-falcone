@@ -20,6 +20,7 @@ const PlanetDropDown = (props) => {
             style={{ width: 200 }}
             placeholder="Select a planet"
             optionFilterProp="children"
+            onChange = {props.planetSelectHandler}
             filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }

@@ -7,7 +7,7 @@ const optionStyleObj = {
     height: '30px'
 };
 const VehicleSelect = (props) => {
-    let vehicles = props.vehicles;
+    let {vehicles, vehicleSelectHandler} = props;
     vehicles = vehicles.map((vehicle, index) => {
         let vehicleName = vehicle.name,
             vehicleCount = vehicle.total_no;
@@ -17,6 +17,7 @@ const VehicleSelect = (props) => {
                 value={vehicleName}
                 style={optionStyleObj}
                 disabled={ vehicleCount ? false : true }
+                onChange = {vehicleSelectHandler}
             >
             {`${vehicleName}(${vehicleCount})`}
             </Radio>
