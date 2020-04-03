@@ -1,0 +1,10 @@
+
+.home-page-title{
+    font-size: 25px;
+    font-family: Source Sans Pro SemiBold;
+}
+.inputs-container{
+    display: inline-block;
+    margin: auto;
+    margin-top: 20px;
+}

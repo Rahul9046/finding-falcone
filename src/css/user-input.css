@@ -1,0 +1,11 @@
+.user-input-container{
+    display: inline-block;
+    margin: 10px;
+}
+.vehicles-container{
+    margin-top: 10px;
+}
+.destination-text{
+    font-size: 16px;
+    font-family: Source Sans Pro SemiBold;
+}
