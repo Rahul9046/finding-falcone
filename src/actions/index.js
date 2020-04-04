@@ -44,6 +44,12 @@ export async function findFalcone(dispatch, req){
         payload: data
     }); 
 }
+export function setTotalTime(dispatch, data){
+    dispatch({
+        type: 'SET_TIME',
+        payload: data
+    }); 
+}
 
 
 

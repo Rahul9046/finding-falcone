@@ -4,7 +4,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route} from 'react-router-dom';
-import { setToken, setVehicles, setPlanets, selectPlanet, selectVehicle, findFalcone } from '../actions';
+import { setToken, setVehicles, setPlanets, selectPlanet, selectVehicle, findFalcone, setTotalTime } from '../actions';
 import UserInputPage from './user-input-page';
 import ResultPage from './result-page';
 import '../css/home.css';
@@ -16,7 +16,6 @@ import '../css/home.css';
 const getInitialState = ()=>{
     return {
         token: '',
-        totalTime: 0,
         planets:[],
         vehicles:[],
         planets_selected:[],
@@ -57,9 +56,9 @@ class Home extends Component{
             timeTaken = planetDistance / vehiclesSpeed;
         this.props.selectVehicle(vehicleName);
         this.setState({
-            vehicles_selected: [...this.props.selected_vehicles, vehicleName],
-            totalTime: this.state.totalTime + timeTaken
+            vehicles_selected: [...this.props.selected_vehicles, vehicleName]
         });
+        this.props.setTotalTime(this.props.totalTime + timeTaken);
     }
     findResultHandler = ()=>{
         let { planets_selected, vehicles_selected } = this.state,
@@ -72,12 +71,12 @@ class Home extends Component{
         this.setState(getInitialState());
     }
     render(){
-        let { planets, vehicles, noOfInputs, result } = this.props,
-        { planets_selected, vehicles_selected, totalTime } = this.state;
+        let { planets, vehicles, noOfInputs, result, totalTime } = this.props,
+        { planets_selected, vehicles_selected } = this.state;
         return (
             <Router>
                 <Switch>
-                    <Route path="/result"><ResultPage result = {result} totalTime = {totalTime}/></Route>
+                    <Route path="/result"><ResultPage result={result} totalTime={totalTime} setTotalTime={this.props.setTotalTime}/></Route>
                     <Route path="/">
                         <UserInputPage 
                             planets = {planets}
@@ -104,7 +103,8 @@ const mapDispatchToProps = (dispatch) => {
         selectVehicle: (data)=> selectVehicle(dispatch, data),
         findFalcone: async (req) => {
             await findFalcone(dispatch, req);
-        }
+        },
+        setTotalTime: (time)=>{setTotalTime(dispatch, time)}
     }
   }
 const mapStateToProps = (state)=>{
@@ -114,7 +114,8 @@ const mapStateToProps = (state)=>{
         vehicles: state.vehicles,
         selected_planets: state.selected_planets,
         selected_vehicles: state.selected_vehicles,
-        result: state.result
+        result: state.result,
+        totalTime: state.totalTime
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

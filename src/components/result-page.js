@@ -5,8 +5,9 @@ import '../css/result-page.css'
 
 
 const ResultPage = (props) => {
-    let {result, totalTime, history} = props,
+    let {result, totalTime, history, setTotalTime} = props,
         handleButtonClick = ()=>{
+            setTotalTime(0);
             history.push('/');
         };
         return (
