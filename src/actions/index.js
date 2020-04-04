@@ -37,6 +37,13 @@ export function selectVehicle(dispatch, data){
         payload: data
     }); 
 }
+export async function findFalcone(dispatch, req){
+    let data = await getResultData(req);
+    dispatch({
+        type: 'SET_RESULT',
+        payload: data
+    }); 
+}
 
 
 

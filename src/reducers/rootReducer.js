@@ -3,14 +3,16 @@ const SET_TOKEN = 'SET_TOKEN',
     SET_VEHICLES = 'SET_VEHICLES',
     SET_PLANETS = 'SET_PLANETS',
     SELECT_PLANET = 'SELECT_PLANET',
-    SELECT_VEHICLE = 'SELECT_VEHICLE';
+    SELECT_VEHICLE = 'SELECT_VEHICLE',
+    SET_RESULT = 'SET_RESULT';
 
 const initState = {
     token: '',
     planets: [],
     vehicles: [],
     selected_planets: [],
-    selected_vehicles: []
+    selected_vehicles: [],
+    result:  {}
 };
 
 export default function rootReducer(state = initState, action){
@@ -39,7 +41,12 @@ export default function rootReducer(state = initState, action){
             return {
                 ...state,
                 selected_vehicles: [...state.selected_vehicles, action.payload]
-            }            
+            } 
+        case SET_RESULT:
+            return {
+                ...state,
+                result : action.payload
+            }                
         default:
         return {
             ...state
