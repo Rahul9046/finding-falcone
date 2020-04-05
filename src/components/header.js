@@ -3,7 +3,7 @@ import '../css/header.css';
 import { connect } from 'react-redux';
 import {  resetSelectionState } from '../actions';
 
-const URL = 'https://www.geeksforgeeks.org/';
+const URL = 'https://www.geektrust.in/';
 function Header(props) {
   const handleResetButtonCLick = ()=> {
     props.resetSelectionState();
