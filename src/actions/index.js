@@ -47,5 +47,10 @@ export function setTotalTime(dispatch, data){
         payload: data
     }); 
 }
+export async function resetSelectionState(dispatch){
+    dispatch({
+        type: 'RESET_STATE'
+    }); 
+}
 
 

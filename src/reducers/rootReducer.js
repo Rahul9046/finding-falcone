@@ -5,7 +5,8 @@ const SET_TOKEN = 'SET_TOKEN',
     SELECT_PLANET = 'SELECT_PLANET',
     SELECT_VEHICLE = 'SELECT_VEHICLE',
     SET_RESULT = 'SET_RESULT',
-    SET_TIME = 'SET_TIME';
+    SET_TIME = 'SET_TIME',
+    RESET_STATE = 'RESET_STATE';
 
 const initState = {
     token: '',
@@ -54,6 +55,13 @@ export default function rootReducer(state = initState, action){
                     ...state,
                     totalTime : action.payload
                 }  
+        case RESET_STATE :
+            return {
+                ...state,
+                selected_planets: [],
+                selected_vehicles: [],
+                totalTime: 0
+            }         
         default:
         return {
             ...state

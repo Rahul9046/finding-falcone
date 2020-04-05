@@ -5,16 +5,15 @@ import '../css/result-page.css'
 
 
 const ResultPage = (props) => {
-    let {result, totalTime, history, setTotalTime} = props,
+    let {result, totalTime, history, resetSelectionState} = props,
         handleButtonClick = ()=>{
-            // set the total time to 0 when clicking of start again button
-            setTotalTime(0);
+            resetSelectionState();
             history.push('/');
         };
         return (
             <div className= "result-container">
                 {
-                    result.status ? 
+                    result.status !== 'false' ? 
                         <div>
                                 <div className="result-success-text">Sucess! Congratulations on Finding Falcone. King Shan is mighty pleased.</div>
                                 <div className="result-time-details">Time taken: {totalTime}</div>

@@ -4,7 +4,7 @@ import {
     BrowserRouter as Router,
     Switch,
     Route} from 'react-router-dom';
-import { setToken, setVehicles, setPlanets, selectPlanet, selectVehicle, findFalcone, setTotalTime } from '../actions';
+import { setToken, setVehicles, setPlanets, selectPlanet, selectVehicle, findFalcone, setTotalTime, resetSelectionState } from '../actions';
 import UserInputPage from './user-input-page';
 import ResultPage from './result-page';
 import '../css/home.css';
@@ -15,9 +15,6 @@ import '../css/home.css';
  */
 const getInitialState = ()=>{
     return {
-        token: '',
-        planets:[],
-        vehicles:[],
         planets_selected:[],
         vehicles_selected:[]
     }
@@ -29,28 +26,18 @@ class Home extends Component{
         this.state = getInitialState();
     }
     async componentDidMount(){
-        this.props.setToken().then(()=>{
-            this.setState({
-                token: this.props.token
-            })
-        });
-        this.props.setVehicles().then(()=>{
-            this.setState({
-                vehicles: this.props.vehicles
-            })
-        });
-        this.props.setPlanets().then(()=>{
-            this.setState({
-                planets: this.props.planets
-            })
-        });
+        await this.props.setToken();
+        await this.props.setVehicles();
+        await this.props.setPlanets();
     }
+    // handler for selecting a planet from  then dropdown
     planetSelectHandler = (value) =>{
         this.props.selectPlanet(value);
         this.setState({
             planets_selected: [...this.props.selected_planets, value]
         });
     }
+    // handler for selecting a vehicle from the radio button list
     vehicleSelectHandler = (planetDistance, vehicleName) =>{
         let vehiclesSpeed = this.props.vehicles.find((vehicle)=>vehicle.name === vehicleName).speed,
             timeTaken = planetDistance / vehiclesSpeed;
@@ -60,25 +47,31 @@ class Home extends Component{
         });
         this.props.setTotalTime(this.props.totalTime + timeTaken);
     }
-    findResultHandler = ()=>{
+    // handler for the find button 
+    findResultHandler = async ()=>{
         let { planets_selected, vehicles_selected } = this.state,
         {token, findFalcone} = this.props;
         // call the action to find the result
-        findFalcone({
+       await findFalcone({
             token,
             planet_names: planets_selected,
             vehicle_names: vehicles_selected
         });
-        // set the state of the component to its initial state
         this.setState(getInitialState());
     }
     render(){
+        debugger;
         let { planets, vehicles, noOfInputs, result, totalTime } = this.props,
         { planets_selected, vehicles_selected } = this.state;
         return (
             <Router>
                 <Switch>
-                    <Route path="/result"><ResultPage result={result} totalTime={totalTime} setTotalTime={this.props.setTotalTime}/></Route>
+                    <Route path="/result">
+                        <ResultPage 
+                            result={result} 
+                            totalTime={totalTime} 
+                            resetSelectionState={this.props.resetSelectionState}/>
+                    </Route>
                     <Route path="/">
                         <UserInputPage 
                             planets = {planets}
@@ -98,21 +91,24 @@ class Home extends Component{
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        setToken : async ()=> {
+        setToken : async ()=> { // action for setting the token
             await setToken(dispatch);
         },
-        setVehicles: async ()=> {
+        setVehicles: async ()=> { // action for setting the total vehicles available initially
             await setVehicles(dispatch);
         },
-        setPlanets: async ()=> {
+        setPlanets: async ()=> { // action for setting the total planets available initially 
             await setPlanets(dispatch);
         },
-        findFalcone: async (req) => {
+        findFalcone: async (req) => { // action for finding the search result
             await findFalcone(dispatch, req);
         },
-        selectPlanet: (data)=> selectPlanet(dispatch, data),
-        selectVehicle: (data)=> selectVehicle(dispatch, data),
-        setTotalTime: (time)=>{setTotalTime(dispatch, time)}
+        selectPlanet: (data)=> selectPlanet(dispatch, data), // action for selecting a planet
+        selectVehicle: (data)=> selectVehicle(dispatch, data), // action for selecting a vehicle
+        setTotalTime: (time)=>{setTotalTime(dispatch, time)}, // action for calculating total time 
+        resetSelectionState: async()=>{  // action for resetting the selection state of the store
+            await resetSelectionState(dispatch);
+        }
     }
   }
 const mapStateToProps = (state)=>{
