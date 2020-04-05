@@ -7,7 +7,7 @@ const optionStyleObj = {
     height: '30px'
 };
 const VehicleSelect = (props) => {
-    let {vehicles, vehicleSelectHandler, distance} = props,
+    let {vehicles, vehicleSelectHandler, distance, selected} = props,
     handleVechicleSelection = (evt)=>{
         vehicleSelectHandler(distance, evt.target.value);
     };
@@ -27,7 +27,7 @@ const VehicleSelect = (props) => {
         )
     })
     return (
-        <Radio.Group  onChange = {handleVechicleSelection}>
+        <Radio.Group  onChange = {handleVechicleSelection} value={selected}>
             {vehicles}
         </Radio.Group>
     );
