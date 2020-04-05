@@ -63,11 +63,13 @@ class Home extends Component{
     findResultHandler = ()=>{
         let { planets_selected, vehicles_selected } = this.state,
         {token, findFalcone} = this.props;
+        // call the action to find the result
         findFalcone({
             token,
             planet_names: planets_selected,
             vehicle_names: vehicles_selected
         });
+        // set the state of the component to its initial state
         this.setState(getInitialState());
     }
     render(){
@@ -96,14 +98,20 @@ class Home extends Component{
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        setToken : ()=> setToken(dispatch),
-        setVehicles: ()=> setVehicles(dispatch),
-        setPlanets: ()=> setPlanets(dispatch),
-        selectPlanet: (data)=> selectPlanet(dispatch, data),
-        selectVehicle: (data)=> selectVehicle(dispatch, data),
+        setToken : async ()=> {
+            await setToken(dispatch);
+        },
+        setVehicles: async ()=> {
+            await setVehicles(dispatch);
+        },
+        setPlanets: async ()=> {
+            await setPlanets(dispatch);
+        },
         findFalcone: async (req) => {
             await findFalcone(dispatch, req);
         },
+        selectPlanet: (data)=> selectPlanet(dispatch, data),
+        selectVehicle: (data)=> selectVehicle(dispatch, data),
         setTotalTime: (time)=>{setTotalTime(dispatch, time)}
     }
   }

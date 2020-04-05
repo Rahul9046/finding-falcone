@@ -7,6 +7,7 @@ import '../css/result-page.css'
 const ResultPage = (props) => {
     let {result, totalTime, history, setTotalTime} = props,
         handleButtonClick = ()=>{
+            // set the total time to 0 when clicking of start again button
             setTotalTime(0);
             history.push('/');
         };
