@@ -1,0 +1,9 @@
+.result-container{
+    text-align: center;
+    font-size: 30px;
+    font-family: Source Sans Pro SemiBold;
+}
+.result-success-text{
+    margin-bottom: 10px;
+}
+
