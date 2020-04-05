@@ -33,6 +33,6 @@ export function getPlanetsData(){
  * @returns {Object} the result of the search
  */
 export function getResultData(body){
-    return findRequest()
+    return findRequest(body)
         .then(res =>res.data)
 }
