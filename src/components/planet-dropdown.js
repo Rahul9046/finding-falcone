@@ -5,7 +5,7 @@ import "antd/dist/antd.css";
 
 const { Option } = Select;
 const PlanetDropDown = (props) => {
-    let planets = props.planets;
+    let {planets, selected} = props;
     planets = planets.map((planet, index) => {
         let planetName = planet.name;
         return (
@@ -19,8 +19,10 @@ const PlanetDropDown = (props) => {
             showSearch
             style={{ width: 200 }}
             placeholder="Select a planet"
+            value= {selected}
             optionFilterProp="children"
             onChange = {props.planetSelectHandler}
+            defaultValue = {null}
             filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }

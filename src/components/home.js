@@ -9,22 +9,8 @@ import UserInputPage from './user-input-page';
 import ResultPage from './result-page';
 import '../css/home.css';
 
-/**
- * function that resturns the initail    state of the component
- * @returns {Object} the state object
- */
-const getInitialState = ()=>{
-    return {
-        planets_selected:[],
-        vehicles_selected:[]
-    }
-}
+
 class Home extends Component{
-    constructor(props){
-        super(props);
-        // initialize initial state
-        this.state = getInitialState();
-    }
     async componentDidMount(){
         await this.props.setToken();
         await this.props.setVehicles();
@@ -33,36 +19,26 @@ class Home extends Component{
     // handler for selecting a planet from  then dropdown
     planetSelectHandler = (value) =>{
         this.props.selectPlanet(value);
-        this.setState({
-            planets_selected: [...this.props.selected_planets, value]
-        });
     }
     // handler for selecting a vehicle from the radio button list
     vehicleSelectHandler = (planetDistance, vehicleName) =>{
         let vehiclesSpeed = this.props.vehicles.find((vehicle)=>vehicle.name === vehicleName).speed,
             timeTaken = planetDistance / vehiclesSpeed;
         this.props.selectVehicle(vehicleName);
-        this.setState({
-            vehicles_selected: [...this.props.selected_vehicles, vehicleName]
-        });
         this.props.setTotalTime(this.props.totalTime + timeTaken);
     }
     // handler for the find button 
     findResultHandler = async ()=>{
-        let { planets_selected, vehicles_selected } = this.state,
-        {token, findFalcone} = this.props;
+        let { selected_planets, selected_vehicles , token, findFalcone } = this.props;
         // call the action to find the result
        await findFalcone({
             token,
-            planet_names: planets_selected,
-            vehicle_names: vehicles_selected
+            planet_names: selected_planets,
+            vehicle_names: selected_vehicles
         });
-        this.setState(getInitialState());
     }
     render(){
-        debugger;
-        let { planets, vehicles, noOfInputs, result, totalTime } = this.props,
-        { planets_selected, vehicles_selected } = this.state;
+        let { planets, vehicles, noOfInputs, result, totalTime, selected_planets, selected_vehicles } = this.props;
         return (
             <Router>
                 <Switch>
@@ -74,12 +50,12 @@ class Home extends Component{
                     </Route>
                     <Route path="/">
                         <UserInputPage 
-                            planets = {planets}
-                            vehicles = {vehicles}
+                            planets = {planets || []}
+                            vehicles = {vehicles || []}
                             noOfInputs={noOfInputs}
-                            planets_selected = {planets_selected}
-                            vehicles_selected ={vehicles_selected}
-                            totalTime = {totalTime}
+                            planets_selected = {selected_planets || []}
+                            vehicles_selected ={selected_vehicles || []}
+                            totalTime = {totalTime || 0}
                             planetSelectHandler = {this.planetSelectHandler} 
                             vehicleSelectHandler = {this.vehicleSelectHandler}
                             findResultHandler = {this.findResultHandler}/> 
@@ -103,7 +79,7 @@ const mapDispatchToProps = (dispatch) => {
         findFalcone: async (req) => { // action for finding the search result
             await findFalcone(dispatch, req);
         },
-        selectPlanet: (data)=> selectPlanet(dispatch, data), // action for selecting a planet
+        selectPlanet: (data)=> selectPlanet(dispatch, data), // action for selecting a planet,
         selectVehicle: (data)=> selectVehicle(dispatch, data), // action for selecting a vehicle
         setTotalTime: (time)=>{setTotalTime(dispatch, time)}, // action for calculating total time 
         resetSelectionState: async()=>{  // action for resetting the selection state of the store

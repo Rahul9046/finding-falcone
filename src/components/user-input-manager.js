@@ -29,6 +29,7 @@ const UserInputManager = (props) => {
                     <UserInput 
                         key={index}
                         selectedPlanet = {planets.find( planet => planet.name === selectedPlanets[index])} 
+                        selectedVehicle = {vehicles.find( vehicle => vehicle.name === selectedVehicles[index])} 
                         planets={remainingPlanets} 
                         vehicles={JSON.parse(JSON.stringify(remainingVehicles))} 
                         planetSelectHandler = {planetSelectHandler}
@@ -42,6 +43,7 @@ const UserInputManager = (props) => {
                 <UserInput 
                     key={index}
                     selectedPlanet = {undefined} 
+                    selectedVehicle = {undefined}
                     planets={remainingPlanets} 
                     vehicles={JSON.parse(JSON.stringify(remainingVehicles))} 
                     planetSelectHandler = {planetSelectHandler}
